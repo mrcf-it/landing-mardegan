@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Collaborazione Mardegan</title>
+  <meta name="description" content="Supporto finanziario: mutuo, prestito personale, cessione del quinto, fondo pensione. Richiedi una richiamata." />
+
+  <style>
+    :root{
+      --bg:#F4F6F8;
+      --panel:#FFFFFF;
+      --panel2:#F7F8FA;
+      --text:#111827;
+      --muted:#6B7280;
+      --stroke:#E5E7EB;
+      --shadow:0 18px 45px rgba(17,24,39,.08);
+      --shadow2:0 10px 26px rgba(17,24,39,.06);
+      --radius:18px;
+      --radius2:22px;
+      --accent:#111827;
+      --ok:#16a34a;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(900px 480px at 18% 0%, rgba(17,24,39,.06), transparent 55%),
+        radial-gradient(900px 520px at 86% 8%, rgba(17,24,39,.05), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:inherit}
+    .container{max-width:1120px;margin:0 auto;padding:22px 18px 90px}
+
+    /* Topbar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:rgba(244,246,248,.78);
+      border-bottom:1px solid var(--stroke);
+    }
+    .topbar-inner{
+      max-width:1120px;margin:0 auto;padding:12px 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      font-weight:900;letter-spacing:.2px;
+      min-width:0;
+    }
+    .mark{
+      width:38px;height:38px;border-radius:14px;
+      background:linear-gradient(135deg,#111827,#374151);
+      box-shadow:var(--shadow2);
+      flex:0 0 auto;
+    }
+    .brand small{display:block;color:var(--muted);font-weight:700;margin-top:2px}
+    .brand .title{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+
+    .nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 14px;border-radius:12px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.75);
+      text-decoration:none;font-weight:800;
+      transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--shadow2);background:#fff}
+    .btn.primary{
+      border:1px solid #111827;
+      background:#111827;color:#fff;
+    }
+    .btn.primary:hover{background:#0b1220}
+    .btn.ghost{
+      background:transparent;
+    }
+
+    /* Hero */
+    .hero{
+      margin-top:18px;
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.78));
+      border-radius:var(--radius2);
+      box-shadow:var(--shadow);
+      padding:22px;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width:980px){.hero{grid-template-columns:1fr}}
+    h1{
+      margin:0 0 10px;
+      font-size:40px;
+      letter-spacing:-.9px;
+      line-height:1.06;
+    }
+    @media (max-width:520px){
+      h1{font-size:30px;letter-spacing:-.6px}
+    }
+
+    .lead{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+    }
+
+    .hero-actions{
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.88);
+      border-radius:18px;
+      padding:14px;
+      box-shadow:var(--shadow2);
+    }
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+    .chip{
+      display:inline-flex;align-items:center;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid var(--stroke);
+      background:var(--panel2);
+      font-weight:900;font-size:12px;
+      letter-spacing:.2px;
+      color:#374151;
+    }
+    .hero-actions .btn{width:100%;margin-top:10px}
+    .hero-actions .small{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.45}
+
+    /* Cards & sections */
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}}
+    .card{
+      border:1px solid var(--stroke);
+      background:var(--panel);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow2);
+      padding:18px;
+    }
+    .section{margin-top:16px}
+    .section-title{
+      display:flex;align-items:center;gap:10px;margin:0 0 10px;
+      font-size:18px;letter-spacing:-.2px;
+    }
+    .badge{
+      font-size:12px;font-weight:900;
+      color:#111827;
+      background:#EEF2F7;
+      border:1px solid var(--stroke);
+      padding:5px 9px;border-radius:999px;
+    }
+    .muted{color:var(--muted)}
+    .hr{height:1px;background:var(--stroke);margin:14px 0}
+    .list{margin:10px 0 0;padding-left:18px}
+    .list li{margin:6px 0}
+
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    @media (max-width:760px){.two{grid-template-columns:1fr}}
+    .mini{
+      border:1px solid var(--stroke);
+      background:var(--panel2);
+      border-radius:16px;
+      padding:14px;
+    }
+    .mini b{display:block;margin-bottom:8px}
+    .kpi{
+      display:grid;gap:10px;
+    }
+    .kpi .item{
+      display:flex;gap:10px;align-items:flex-start;
+      padding:12px;border:1px solid var(--stroke);
+      border-radius:16px;background:rgba(255,255,255,.75);
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:var(--ok);
+      margin-top:6px;flex:0 0 auto;
+    }
+
+    /* Disclosure */
+    details{
+      border:1px solid var(--stroke);
+      border-radius:16px;
+      padding:12px 12px;
+      background:rgba(255,255,255,.65);
+    }
+    details summary{
+      cursor:pointer;
+      font-weight:900;
+      list-style:none;
+      outline:none;
+    }
+    details summary::-webkit-details-marker{display:none}
+    details .muted{margin:8px 0 0}
+
+    /* Form */
+    form{display:grid;gap:10px;margin-top:10px}
+    label{font-weight:900;font-size:13px}
+    input[type="text"], input[type="tel"]{
+      width:100%;
+      padding:11px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:#fff;
+      outline:none;
+      font-size:14px;
+    }
+    input:focus{
+      border-color:#111827;
+      box-shadow:0 0 0 4px rgba(17,24,39,.08);
+    }
+    .radio{
+      display:grid;gap:8px;
+      padding:12px;border-radius:14px;
+      border:1px solid var(--stroke);
+      background:#fff;
+    }
+    .radio-item{display:flex;gap:10px;align-items:flex-start}
+    .radio-item input{margin-top:3px}
+    .ok{
+      display:none;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(17,24,39,.15);
+      background:rgba(17,24,39,.06);
+      color:#111827;
+    }
+
+    .actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+    /* Mobile bottom bar */
+    .mobile-cta{
+      position:fixed; left:0; right:0; bottom:0; z-index:60;
+      background:rgba(244,246,248,.88);
+      border-top:1px solid var(--stroke);
+      backdrop-filter:saturate(140%) blur(10px);
+      padding:10px 12px;
+      display:none;
+    }
+    .mobile-cta .wrap{
+      max-width:1120px; margin:0 auto;
+      display:grid; grid-template-columns:1fr 1fr; gap:10px;
+    }
+    .mobile-cta .btn{width:100%}
+    @media (max-width:760px){
+      .mobile-cta{display:block}
+      .nav{display:none}
+      .container{padding-bottom:110px}
+    }
+
+    footer{
+      margin-top:22px;
+      padding-top:18px;
+      border-top:1px solid var(--stroke);
+      color:var(--muted);
+      font-size:12px;
+    }
+    footer a{color:var(--text);font-weight:800;text-decoration:none}
+    footer a:hover{text-decoration:underline}
+  </style>
+</head>
+
+<body>
+  <!-- Sticky topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div class="title">
+          Collaborazione <span style="font-weight:900">Mardegan</span>
+          <small>Supporto finanziario</small>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Navigazione">
+        <a class="btn" href="#come-funziona">Come funziona</a>
+        <a class="btn" href="#servizi">Servizi</a>
+        <a class="btn primary" href="#sondaggio">Richiedi richiamata</a>
+        <a class="btn" href="#messaggio">WhatsApp</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div>
+        <h1>Supporto finanziario su misura, con la fiducia di chi già conosci</h1>
+        <p class="lead">
+          Ciao, sono <b>Giampaolo Mardegan</b>. Da oggi, grazie alla collaborazione con
+          <b>Marco Rizzo</b> (consulente finanziario – gruppo bancario Monte dei Paschi di Siena),
+          posso supportarti anche su temi finanziari come mutui, prestiti, cessione del quinto e fondi pensione.
+        </p>
+
+        <div class="hr"></div>
+
+        <details>
+          <summary>Leggi la presentazione completa</summary>
+          <p class="muted" style="margin:10px 0 0">
+            Se ti fa piacere possiamo approfondire con un appuntamento personalizzato, per valutare miglioramenti
+            o soluzioni adatte alle tue necessità. Puoi rispondere al sondaggio: sarà mia cura farti richiamare
+            dalla segreteria per il tema selezionato.
+          </p>
+        </details>
+
+        <div class="hr"></div>
+
+        <div class="kpi">
+          <div class="item">
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <b>Obiettivo</b><br/>
+              <span class="muted">Capire se ti interessa l’argomento e fissare un primo confronto (senza pressioni).</span>
+            </div>
+          </div>
+          <div class="item">
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <b>Ricontatto</b><br/>
+              <span class="muted">Ti richiama la segreteria in base al tema scelto nel sondaggio.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-actions" aria-label="Azioni rapide">
+        <div class="chips">
+          <span class="chip">Mutuo</span>
+          <span class="chip">Prestito</span>
+          <span class="chip">Cessione del Quinto</span>
+          <span class="chip">Fondo Pensione</span>
+        </div>
+        <a class="btn primary" href="#sondaggio">Richiedi richiamata</a>
+        <a class="btn" href="#messaggio">Scrivimi su WhatsApp</a>
+        <div class="small">Messaggio semplice → ti rispondiamo e concordiamo i prossimi passi.</div>
+      </div>
+    </section>
+
+    <!-- COME FUNZIONA -->
+    <section class="section card" id="come-funziona">
+      <h2 class="section-title"><span class="badge">✅</span> Come funziona</h2>
+
+      <div class="two">
+        <div class="mini">
+          <b>1) Scegli un tema</b>
+          <div class="muted">Compila il sondaggio (30 secondi) oppure scrivi su WhatsApp.</div>
+        </div>
+        <div class="mini">
+          <b>2) Ti richiamiamo</b>
+          <div class="muted">La segreteria ti contatta per fissare un confronto nel momento migliore per te.</div>
+        </div>
+        <div class="mini">
+          <b>3) Analisi e proposta</b>
+          <div class="muted">Marco valuta la soluzione più adatta e, se serve, ti segue negli step successivi.</div>
+        </div>
+        <div class="mini">
+          <b>Zero pressione</b>
+          <div class="muted">Il primo contatto serve solo a chiarire dubbi e capire se ha senso proseguire.</div>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <a class="btn primary" href="#sondaggio">Compila il sondaggio</a>
+        <a class="btn" href="#messaggio">Apri WhatsApp</a>
+      </div>
+    </section>
+
+    <!-- SERVIZI -->
+    <section class="grid" id="servizi">
+      <article class="card">
+        <h2 class="section-title"><span class="badge">✅</span> Servizi principali</h2>
+
+        <div class="two">
+          <div class="mini">
+            <b>Mutui</b>
+            <ul class="list">
+              <li>Acquisto</li>
+              <li>Surroga</li>
+              <li>Rinegoziazione condizioni</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <b>Fondo pensione</b>
+            <ul class="list">
+              <li>Vantaggi fiscali</li>
+              <li>Analisi previdenziale</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <b>Finanziamenti personali</b>
+            <ul class="list">
+              <li>Prestito personale</li>
+              <li>Consolidamento debiti</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <b>Cessione del quinto</b>
+            <ul class="list">
+              <li>Preventivo veloce</li>
+              <li>Valutazione fattibilità</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <aside class="card">
+        <h2 class="section-title"><span class="badge">✅</span> Chi fa cosa</h2>
+
+        <div class="two">
+          <div class="mini">
+            <b>Giampaolo (assicuratore)</b>
+            <ul class="list">
+              <li>Primo contatto e orientamento</li>
+              <li>Raccolta richieste</li>
+              <li>Supporto organizzativo</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <b>Marco (consulente finanziario)</b>
+            <ul class="list">
+              <li>Analisi tecnica</li>
+              <li>Colloquio e proposta</li>
+              <li>Gestione pratica e follow-up</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <p class="muted" style="margin:0">
+          Il primo messaggio <b>non è una vendita</b>: serve ad aprire una conversazione e capire se ti interessa approfondire.
+        </p>
+      </aside>
+    </section>
+
+    <!-- SONDAGGIO -->
+    <section class="section card" id="sondaggio">
+      <h2 class="section-title"><span class="badge">✅</span> Richiedi richiamata (sondaggio)</h2>
+      <p class="muted" style="margin:0 0 10px">
+        Inserisci nome e telefono e seleziona l’argomento: ti ricontattiamo per fissare un confronto.
+      </p>
+
+      <form id="pollForm" novalidate>
+        <div style="display:grid;gap:6px">
+          <label for="nome">Nome e Cognome</label>
+          <input id="nome" name="nome" type="text" autocomplete="name" required />
+        </div>
+
+        <div style="display:grid;gap:6px">
+          <label for="telefono">Telefono</label>
+          <input id="telefono" name="telefono" type="tel" autocomplete="tel" required />
+        </div>
+
+        <div style="display:grid;gap:6px">
+          <label>Quale tema ti interessa?</label>
+          <div class="radio">
+            <div class="radio-item">
+              <input type="radio" name="tema" id="t1" value="Mutui (acquisto / surroga / rinegoziazione)" required />
+              <label for="t1" style="font-weight:800">Mutui (acquisto / surroga / rinegoziazione)</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" name="tema" id="t2" value="Cessione del Quinto" />
+              <label for="t2" style="font-weight:800">Cessione del Quinto</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" name="tema" id="t3" value="Prestiti / Finanziamenti personali" />
+              <label for="t3" style="font-weight:800">Prestiti / Finanziamenti personali</label>
+            </div>
+            <div class="radio-item">
+              <input type="radio" name="tema" id="t4" value="Fondo pensione" />
+              <label for="t4" style="font-weight:800">Fondo pensione</label>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn primary" type="submit">Invia richiesta</button>
+        <div class="ok" id="okBox" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <!-- WHATSAPP -->
+    <section class="section card" id="messaggio">
+      <h2 class="section-title"><span class="badge">✅</span> WhatsApp</h2>
+      <p class="muted" style="margin:0 0 10px">
+        Vuoi fare prima? Apri WhatsApp e manda un messaggio già pronto. Poi ti rispondiamo e ci organizziamo.
+      </p>
+
+      <div class="actions-row">
+        <a class="btn primary" id="openWaBtn" href="#" rel="noopener">Apri WhatsApp</a>
+        <a class="btn" href="#sondaggio">Oppure compila il sondaggio</a>
+      </div>
+    </section>
+
+    <footer>
+      <div style="display:grid;gap:10px">
+        <div>Informativa privacy: <a id="privacyLink" href="#" rel="noopener">Leggi</a></div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Mobile bottom CTA -->
+  <div class="mobile-cta" aria-label="Azioni rapide mobile">
+    <div class="wrap">
+      <a class="btn primary" href="#sondaggio">Richiamata</a>
+      <a class="btn" href="#messaggio">WhatsApp</a>
+    </div>
+  </div>
+
+  
+  <script>
+    // Numero segreteria (WhatsApp) – formato internazionale
+    const WHATSAPP_NUMBER = "+393477346952";
+    const PRIVACY_URL = "https://example.com/privacy"; // TODO: sostituisci con la tua privacy reale
+
+    const privacyLink = document.getElementById("privacyLink");
+    const openWaBtn = document.getElementById("openWaBtn");
+    privacyLink.href = PRIVACY_URL;
+
+    // Helpers
+    const digitsOnly = (s) => (s || "").replace(/[^\d+]/g, "").trim();
+    const waDigits = (num) => digitsOnly(num).replace("+", "").replace(/^00/, "");
+
+    // Normalizza un numero inserito dall'utente:
+    // - se manca il prefisso, assume IT (+39)
+    // - rimuove spazi, trattini, ecc.
+    function normalizeUserPhone(raw) {
+      let v = digitsOnly(raw);
+
+      if (!v) return "";
+
+      // 00xx -> +xx
+      if (v.startsWith("00")) v = "+" + v.slice(2);
+
+      // Se è già internazionale con +
+      if (v.startsWith("+")) return v;
+
+      // Se sembra un numero italiano (cellulare o fisso) senza prefisso, aggiungi +39
+      const onlyDigits = v.replace(/\D/g, "");
+      if (onlyDigits.length >= 8 && onlyDigits.length <= 11) {
+        return "+39" + onlyDigits;
+      }
+
+      // fallback
+      return v;
+    }
+
+    // Testi WhatsApp in base al tema
+    function themeCopy(theme) {
+      const baseIntro = "Ciao, ho compilato il sondaggio. Vorrei essere ricontattato/a.";
+      switch (theme) {
+        case "Mutui (acquisto / surroga / rinegoziazione)":
+          return `${baseIntro}\nTema: Mutuo (acquisto/surroga/rinegoziazione)\nObiettivo: capire la soluzione migliore e i prossimi step.`;
+        case "Cessione del Quinto":
+          return `${baseIntro}\nTema: Cessione del quinto\nObiettivo: valutare fattibilità e condizioni.`;
+        case "Prestiti / Finanziamenti personali":
+          return `${baseIntro}\nTema: Prestito / finanziamento personale\nObiettivo: valutare importo, durata e rata sostenibile.`;
+        case "Fondo pensione":
+          return `${baseIntro}\nTema: Fondo pensione\nObiettivo: capire vantaggi fiscali e la soluzione più adatta.`;
+        default:
+          return `${baseIntro}\nTema: ${theme || "—"}\nQuando possiamo sentirci?`;
+      }
+    }
+
+    // WhatsApp quick button (senza tema selezionato)
+    const genericWa = `Ciao, vorrei un contatto per informazioni su mutui / prestiti / cessione del quinto / fondo pensione.\nQuando posso essere richiamato/a?`;
+    openWaBtn.href = `https://wa.me/${waDigits(WHATSAPP_NUMBER)}?text=${encodeURIComponent(genericWa)}`;
+
+    const form = document.getElementById("pollForm");
+    const okBox = document.getElementById("okBox");
+
+    // UI: contenitore "success" più pulito
+    function showSuccess(waHref) {
+      okBox.style.display = "block";
+      okBox.innerHTML = `
+        <b>Perfetto.</b><br/>
+        <span class="muted">Ora puoi inoltrare la richiesta alla segreteria su WhatsApp.</span>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+          <a class="btn primary" href="${waHref}" rel="noopener">Inoltra su WhatsApp</a>
+          <button type="button" class="btn" id="newReqBtn">Nuova richiesta</button>
+        </div>
+      `;
+
+      // Nascondi il form per un effetto più pulito
+      form.style.display = "none";
+
+      // Ripristino
+      const newBtn = document.getElementById("newReqBtn");
+      newBtn.addEventListener("click", () => {
+        okBox.style.display = "none";
+        okBox.innerHTML = "";
+        form.style.display = "grid";
+        form.reset();
+        document.getElementById("nome").focus();
+      });
+    }
+
+    form.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+
+      const nome = form.nome.value.trim();
+      const telefonoRaw = form.telefono.value.trim();
+      const temaEl = form.querySelector('input[name="tema"]:checked');
+
+      if (!nome || !telefonoRaw || !temaEl) {
+        okBox.style.display = "block";
+        okBox.textContent = "Compila tutti i campi richiesti.";
+        return;
+      }
+
+      const telefonoNorm = normalizeUserPhone(telefonoRaw);
+      const tema = temaEl.value;
+
+      const msg =
+        `${themeCopy(tema)}\n\n` +
+        `Nome: ${nome}\n` +
+        `Telefono: ${telefonoNorm}\n` +
+        `Tema scelto: ${tema}`;
+
+      const waHref = `https://wa.me/${waDigits(WHATSAPP_NUMBER)}?text=${encodeURIComponent(msg)}`;
+
+      showSuccess(waHref);
+    });
+  </script>
+
+</body>
+</html>
